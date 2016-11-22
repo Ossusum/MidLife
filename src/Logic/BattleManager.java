@@ -8,21 +8,17 @@ import java.util.ArrayList;
 public class BattleManager {
     private ArrayList<Entity> entities;
     private Entity currentEntity;
+    private Entity client;
 
     public BattleManager(ArrayList<Entity> entities){
         this.entities = entities;
         //TODO if you want can add a speed variable for sorting of turn
         //currentEntity = entities.get(new Random().nextInt(entities.size()));
         currentEntity = entities.get(0);
+        client = entities.get(0);
     }
 
-    //for Test purposes only
-    public BattleManager(){
-        this.entities = new ArrayList<>();
-        entities.add(new Player("Jeff"));
-        entities.add(new Player("Ben"));
-        currentEntity = entities.get(0);
-    }
+
     //TODO case of a player killing another entity
     public void attack(Entity chosenEntity){
         if (!chosenEntity.isDead()) {
@@ -30,22 +26,40 @@ public class BattleManager {
             if (chosenEntity.getHealth() <= 0) {
                 chosenEntity.setDead(true);
             }
-            findNextCurrent();
-        }else{
-            //make it notify that the player has chosen a dead player
         }
     }
 
-    private boolean findNextCurrent(){
+    public boolean auto(Entity chosenEntity){
+        attack(chosenEntity);
+        findNextCurrent();
+        while (!currentEntity.equals(client)) {
+            attack(client);
+            findNextCurrent();
+        }
+        System.out.println(this.toString());
+        return client.isDead();
+    }
 
-        int index = entities.indexOf(currentEntity);
-        for(int i = 0; i < entities.size(); i++){
-            if(!entities.get(index + i).isDead()) {
-                currentEntity = entities.get(i + index);
+
+    private boolean findNextCurrent(){
+        for (int i= entities.indexOf(currentEntity); i < entities.size(); ++i){
+            if (i+1 == entities.size())
+                i = -1;
+            if (!entities.get(i+1).isDead()) {
+                currentEntity = entities.get(i + 1);
                 return true;
             }
         }
         return false;
+    }
+
+    public boolean isLastAlive(){
+        for (int i = 0; i<entities.size();++i){
+            if (!entities.get(i).equals(client))
+                if (!entities.get(i).isDead())
+                    return false;
+        }
+        return true;
     }
 
     public String toString(){
