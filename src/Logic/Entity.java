@@ -10,19 +10,38 @@ public class Entity {
     private Part[] bodyParts;
     private boolean isDead;
     private int health;
+    private int attack;
 
     public Entity(String name){
         this.name = name;
         this.bodyParts = new Part[]{new Part("Head",10),new Part("Torso",30),new Part("Left Arm",15),new Part("Right Arm",15),new Part("Left Leg",15),new Part("Right Arm",15)};
         this.isDead = false;
         this.health = 1000;
+        this.attack = 25;
     }
 
-    public Entity(String name, Part[] bodyParts, boolean isDead, int health){
+    public Entity(String name, Part[] bodyParts, boolean isDead, int health, int attack){
         this.name = name;
         this.bodyParts = bodyParts;
         this.isDead = isDead;
         this.health = health;
+        this.attack = attack;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAttack() {
+        return attack;
+    }
+
+    public void setAttack(int attack) {
+        this.attack = attack;
     }
 
     public int getHealth() {
