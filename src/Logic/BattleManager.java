@@ -1,7 +1,6 @@
 package Logic;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * Created by Benny on 11/21/2016.
@@ -13,7 +12,8 @@ public class BattleManager {
     public BattleManager(ArrayList<Entity> entities){
         this.entities = entities;
         //TODO if you want can add a speed variable for sorting of turn
-        currentEntity = entities.get(new Random().nextInt(entities.size()));
+        //currentEntity = entities.get(new Random().nextInt(entities.size()));
+        currentEntity = entities.get(0);
     }
 
     //for Test purposes only
@@ -23,7 +23,7 @@ public class BattleManager {
         entities.add(new Player("Ben"));
         currentEntity = entities.get(0);
     }
-
+    //TODO case of a player killing another entity
     public void attack(Entity chosenEntity){
         if (!chosenEntity.isDead()) {
             chosenEntity.setHealth(chosenEntity.getHealth() - currentEntity.getAttack());
@@ -50,15 +50,15 @@ public class BattleManager {
 
     public String toString(){
         String currentState = "";
-        currentState += currentEntity.getName() + "\nDead Players:\n";
+        currentState += "Current Player: " + currentEntity.getName() + "\nDead Players:\n";
         for (int i = 0; i <entities.size();++i){
             if (entities.get(i).isDead())
-                currentState += entities.get(0).getName() + "\n";
+                currentState += entities.get(i).getName() + " HP: "+entities.get(i).getHealth()  +"\n";
         }
         currentState += "\nAlive Players:\n";
         for (int i = 0; i <entities.size();++i){
             if (!entities.get(i).isDead())
-                currentState += entities.get(0).getName() + "\n";
+                currentState += entities.get(i).getName()  + " HP: "+entities.get(i).getHealth()  +"\n";
         }
         return currentState;
     }
